@@ -89,8 +89,8 @@ parseInt("09") //9
 5 || 0 //5
 0 || 5 //5
 [3]+[3]-[10] // 23
-3>2>1     //false
-[] == ![] //false
+3>2>1     //false es xq procesa de dos en dos de izq a derecha
+[] == ![] //false 
 ```
 
 > Si te quedó alguna duda repasá con [este artículo](http://javascript.info/tutorial/object-conversion).
