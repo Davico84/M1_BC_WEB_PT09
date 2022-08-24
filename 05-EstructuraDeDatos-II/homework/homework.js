@@ -1,5 +1,7 @@
 "use strict";
 
+const { add, remove } = require("@11ty/eleventy/src/TemplateCache");
+
 /*
 Implementar la clase LinkedList, definiendo los siguientes métodos:
   - add: agrega un nuevo nodo al final de la lista;
@@ -11,9 +13,67 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+class LinkedList
+{
+  constructor ()
+  {
+    this.head=null;
+  }
+  add(data){
+    let node= new Node(data)
+    let current= this.head
+    if (!current)//si esta vacio
+    { 
+      this.head=node
+      return node 
+    }
+    //si hay nodos recorremos
+    while (current.next) {
+      current=current.next
+    }
+    current.next= node
+    return node
+  };
+  remove(){
+    //si la lista esta vacia
+    if(!this.head) return null 
+    
+    if(this.head && !this.head.next)//si la lista tiene un elemento
+    {
+      let rmNode= this.head;
+      this.head=null;
+      return rmNode.value
+    }
+    // si la lista tiene muchos valores
+    let current= this.head
+    while (current.next.next) {
+      current= current.next
+    }
+    let rmNode= current.next
+    current.next=null;
+    return rmNode.value
 
-function Node(value) {}
+  };
+  search()
+  {
+    if (!this.head) return null //si esta vacia ya fue
+    let current= this.head;
+    while(current)
+    {
+      
+    }
+
+  };
+}
+
+class Node 
+{
+  constructor (data)
+  {
+    this.value= null
+    this.next=null
+  }
+}
 
 /*
 Implementar la clase HashTable.

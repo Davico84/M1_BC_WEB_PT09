@@ -11,7 +11,114 @@
   El ábrol utilizado para hacer los tests se encuentra representado en la imagen bst.png dentro del directorio homework.
 */
 
-function BinarySearchTree() {}
+function BinarySearchTree(value) 
+{
+  this.value=value;
+  this.right=null;
+  this.left=null;
+
+}
+
+BinarySearchTree.prototype.size = function()
+{
+  if (this.value === null) return 0;
+  if (this.left === null && this.right === null) return 1;
+  if (this.left === null && this.right !== null) return 1 + this.right.size();
+  if (this.right === null && this.left !== null) return 1 + this.left.size();
+  return 1 + this.right.size() + this.left.size();
+}
+BinarySearchTree.prototype.insert=function(value)
+{
+  //evaluar valor
+  //mayores a la derecha
+  if (value > this.value)
+  {
+      //si el rigth esta libre 
+      if(this.right === null) this.right=new BinarySearchTree(value)
+      else  this.right.insert(value);
+      
+  }
+  //menores a la izquierda
+  if(value < this.value)
+  {
+    //si el nodo left esta libre...
+      if (this.left === null ) this.left= new BinarySearchTree(value)
+      else this.left.insert(value)
+  }
+
+
+}
+BinarySearchTree.prototype.contains =function(value)
+{
+  if (this.value===value) return true
+    //mayores a la derecha
+  if (value>this.value )
+  {
+    if (this.right===null) return false 
+    return this.right.contains(value)
+  }
+  //menores a la izq
+  if (value<this.value )
+  {
+    if (this.left===null) return false 
+    return this.left.contains(value)
+  }
+}
+BinarySearchTree.prototype.depthFirstForEach=function(cb, orden)
+{
+  //post order
+if (orden === 'post-order') {
+  // izq -> der -> root
+  
+  //cb eb left
+  if (this.left !==null) this.left.depthFirstForEach(cb, orden)
+  //cb en rigth
+  if (this.right !==null) this.right.depthFirstForEach(cb, orden)
+  //cb en root
+  cb(this.value)
+}
+
+  //pre order
+else if (orden === 'pre-order') {
+  // root -> izq ->der
+  //cb en root
+  cb(this.value)
+  //cb eb left
+  if (this.left !==null) this.left.depthFirstForEach(cb, orden)
+  //cb en rigth
+  if (this.right !==null) this.right.depthFirstForEach(cb, orden)
+
+}
+//in order
+else {
+  // izq -> root -> der
+
+    //cb eb left
+    if (this.left !==null) this.left.depthFirstForEach(cb, orden)
+    //cb en root
+    cb(this.value)
+    //cb en rigth
+    if (this.right !==null) this.right.depthFirstForEach(cb, orden)
+    
+}
+
+  
+}
+BinarySearchTree.prototype.breadthFirstForEach=function(cb, queue)
+{
+  if(!queue) queue =[]
+  //guarda lo q hay en la izq
+  if(this.left !==null) queue.push(this.left)
+  //guarda lo que hay en la derecha
+  if(this.right !==null)queue.push(this.right)
+  //ejecutar ROOT
+  cb(this.value)
+  //revisar si hay elementos en la cola
+  if (queue.length >0)
+  {
+    queue.shift().breadthFirstForEach(cb,queue)
+  }
+}
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
