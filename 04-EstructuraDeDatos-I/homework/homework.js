@@ -41,6 +41,9 @@ function nFibonacci(n)
 //Ejemplo: nFibonacci(7) retornará 13, ya que 13 es el dígito que está en la posición 7 de la secuencia.
 
 //Secuencia:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ... 
+  if(n===0) return 0
+  if(n <3 ) return 1 //
+  return nFibonacci(n-1) + nFibonacci(n-2)
 }
 
 /*
@@ -51,9 +54,23 @@ Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde e
 
 Pueden utilizar class o función constructora.
 */
+function Queue() 
+{
+  this.arr= []
+  this.enqueue= function(data)
+  {
+      this.arr.push(data)
+  }//una manera de crear function
 
-function Queue() {
+}
 
+Queue.prototype.dequeue= function()//otra manera de crear function
+{
+  return this.arr.shift()
+} 
+Queue.prototype.size= function()
+{
+  return this.arr.length
 }
 
 // No modifiquen nada debajo de esta linea

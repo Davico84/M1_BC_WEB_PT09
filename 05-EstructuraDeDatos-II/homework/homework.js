@@ -22,7 +22,8 @@ class LinkedList
   add(data){
     let node= new Node(data)
     let current= this.head
-    if (!current)//si esta vacio
+    //si esta vacio
+    if (!current)
     { 
       this.head=node
       return node 
@@ -54,14 +55,20 @@ class LinkedList
     return rmNode.value
 
   };
-  search()
+  search(value)
   {
     if (!this.head) return null //si esta vacia ya fue
     let current= this.head;
     while(current)
     {
-      
+      if(current.value === value) return current.value;
+      else if (typeof value=== 'function')// evalua caso de funcion recursiva
+      {
+          if (value(current.value)) return current.value
+      }
+      current= current.next
     }
+    return null
 
   };
 }
@@ -70,8 +77,8 @@ class Node
 {
   constructor (data)
   {
-    this.value= null
-    this.next=null
+    this.value = data
+    this.next = null
   }
 }
 
@@ -90,8 +97,44 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() 
+{
+  //arreglo de objetos
+  this.numBuckets =35;
+  this.bucket = {};
+}
+//hash: función hasheadora que determina en qué bucket se almacenará un dato. 
+//Recibe un input alfabético, suma el código numérico de cada caracter del input 
+//(investigar el método charCodeAt de los strings) y calcula el módulo de ese número total por la cantidad de buckets; 
+//de esta manera determina la posición de la tabla en la que se almacenará el dato.
+HashTable.prototype.hash= function(string) {
+  var acc=0
+  for (let i = 0; i < string.length; i++) {
+    acc+=string.charCodeAt(i)
+  }
+  return acc % this.numBuckets//430%35 ->nro enter 0 y 34
+}
+HashTable.prototype.set = function(llave,valor){
+  if (typeof llave !='string') throw new TypeError('keys must be strings');
+  let hashedString=this.hash(llave)
 
+  if(this.bucket[hashedString]){// si existe el objeto
+    var objeto= this.bucket[hashedString]//aqui jala la posicion del objeto
+    objeto[llave]=valor //segun la posicion agrego valor al objeto
+  }else {
+    var objeto= {}
+    this.bucket[hashedString]=objeto
+    objeto[llave]= valor
+  }
+}
+HashTable.prototype.get= function(llave){
+  var hashedString= this.hash(llave)
+  var objeto= this.bucket[hashedString]
+  return objeto[llave]
+}
+HashTable.prototype.hasKey= function(llave){
+  return !!this.get(llave)
+}
 // No modifiquen nada debajo de esta linea
 // --------------------------------
 

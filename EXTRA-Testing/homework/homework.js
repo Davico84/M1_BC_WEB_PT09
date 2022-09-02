@@ -30,7 +30,8 @@ function book(row,number)
 function getRowNumber (row)
 {
     return row.charCodeAt(0) - 65
-}//aplicando factoreo, se creo getSeat para evitar reutilizar codigo
+}
+//aplicando factoreo, se creo getSeat para evitar reutilizar codigo
 /*ifunction getSeat(letter, number) {
   const numberRow = getRowNumber(letter);
   const layoutRows = layout[numberRow];
